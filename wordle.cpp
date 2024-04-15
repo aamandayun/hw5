@@ -20,7 +20,9 @@ using namespace std;
 bool containsFloaters(string s, string floating){
   std::unordered_map<char, int> freq;
   
-  for(char c : floating){
+  for(int i=0; i<floating.length(); i++){
+  //for(char c : floating){
+    char c= floating[i];
     if(c != '-'){
       if(s.find(c)==std::string::npos){
         return false;
@@ -35,7 +37,10 @@ bool containsFloaters(string s, string floating){
 
 bool fixed(string s, string in, int &dashcount){
   int pos = 0;
-  for(char c : in){
+
+  for(int i =0; i<in.length(); i++){
+  //for(char c : in){
+    char c = in[i];
     if(c!='-'){
       if(s[pos]!=c){
         dashcount = 0;
@@ -71,7 +76,9 @@ void helper(const std::string& in, const std::string& floating, const std::set<s
     // cout << floating.length()<<endl;
 
     if(dashcount == floating.length() && floating.length()>0){ //changing from == to <=
-      for(char c : floating){
+      for(int i =0; i<floating.length(); i++){
+        char c = floating[i];
+      //for(char c : floating){
         curr[pos] = c;
         pos++;
         floatingCopy.erase(floatingCopy.find(c), 1);
