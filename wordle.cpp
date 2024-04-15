@@ -17,45 +17,9 @@ using namespace std;
 
 
 // Add prototypes of helper functions here
-bool containsFloaters(string s, string floating){
-  std::unordered_map<char, int> freq;
-  
-  for(int i=0; i<floating.length(); i++){
-  //for(char c : floating){
-    char c= floating[i];
-    if(c != '-'){
-      if(s.find(c)==std::string::npos){
-        return false;
-      }
-      s.erase(s.find(c), 1);
-    }
-    
-  }
 
-  return true;
-}
 
-bool fixed(string s, string in, int &dashcount){
-  int pos = 0;
 
-  for(int i =0; i<in.length(); i++){
-  //for(char c : in){
-    char c = in[i];
-    if(c!='-'){
-      if(s[pos]!=c){
-        dashcount = 0;
-        return false;
-      }
-    }else{
-      dashcount++;
-    }
-    
-    pos++;
-  }
-
-  return true;
-  
-}
 
 void helper(const std::string& in, const std::string& floating, const std::set<std::string>& dict, std::string& curr, std::set<std::string>& result, size_t pos, int dashcount){
   if(pos == in.length()){
@@ -80,20 +44,29 @@ void helper(const std::string& in, const std::string& floating, const std::set<s
         char c = floating[i];
       //for(char c : floating){
         curr[pos] = c;
-        pos++;
+        // pos++;
         floatingCopy.erase(floatingCopy.find(c), 1);
         dashcount--; //added this
-        if(in[pos]!='-'){
-          break;
-        }
-        cout <<c<<endl;
+        // if(in[pos]!='-'){
+        //   break;
+        // }
+        helper(in, floatingCopy, dict, curr, result, pos+1, dashcount);
+        floatingCopy = floating;
+        dashcount++;
       }
-      helper(in, floatingCopy, dict, curr, result, pos, dashcount);
+      //helper(in, floatingCopy, dict, curr, result, pos, dashcount);
     }
     else{
       for(char c = 'a'; c<='z'; ++c){
         curr[pos] = c;
-        helper(in, floating, dict, curr, result, pos+1, dashcount);
+        if(floatingCopy.find(c) != string::npos){
+          floatingCopy.erase(floatingCopy.find(c), 1);
+        }
+        
+        dashcount--;
+        helper(in, floatingCopy, dict, curr, result, pos+1, dashcount);
+        dashcount++;
+        floatingCopy = floating;
       }
     }
   }
@@ -118,20 +91,25 @@ std::set<std::string> wordle(
 
     int dashcount = 0;
     int actualDashcount = 0;
-    cout << in<<endl;
+
 
     if(in.length()==0){
       return result;
     }
 
-    for(string s: dict){
-      if(containsFloaters(s, floating) && s.length()==in.length() && fixed(s, in, dashcount)){
-        actualDashcount = dashcount;
-        newDict.insert(s);
+    // for(string s: dict){
+    //   if(containsFloaters(s, floating) && s.length()==in.length() && fixed(s, in, dashcount)){
+    //     actualDashcount = dashcount;
+    //     newDict.insert(s);
+    //   }
+    // }
+    for(char c:in){
+      if(c =='-'){
+        actualDashcount++;
       }
     }
 
-    helper(in, floating, newDict, curr, result, 0, actualDashcount);
+    helper(in, floating, dict, curr, result, 0, actualDashcount);
 
 
     return result;
