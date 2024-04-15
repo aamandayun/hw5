@@ -11,16 +11,57 @@
 #include "dict-eng.h"
 using namespace std;
 
-#include <unordered_map>
-
-
-
 
 // Add prototypes of helper functions here
 
+#include <unordered_map>
+void helper(const std::string& in, const std::string& floating, const std::set<std::string>& dict, std::string& curr, std::set<std::string>& result, size_t pos, int dashcount);
 
 
+// Definition of primary wordle function
+std::set<std::string> wordle(
+    const std::string& in,
+    const std::string& floating,
+    const std::set<std::string>& dict)
+{
+    // Add your code here
+    //compute all possible English language words that exist given a string
+    //containing the already guessed letters that are in the correct location
+    //floating = yellow, has letters that must be part of the word
+    // in = -i--m
 
+    std::set<std::string>result;
+    std::string curr(in.length(), ' ');
+    std::set<std::string> newDict;
+
+    int dashcount = 0;
+    int actualDashcount = 0;
+
+
+    if(in.length()==0){
+      return result;
+    }
+
+    // for(string s: dict){
+    //   if(containsFloaters(s, floating) && s.length()==in.length() && fixed(s, in, dashcount)){
+    //     actualDashcount = dashcount;
+    //     newDict.insert(s);
+    //   }
+    // }
+    for(char c:in){
+      if(c =='-'){
+        actualDashcount++;
+      }
+    }
+
+    helper(in, floating, dict, curr, result, 0, actualDashcount);
+
+
+    return result;
+
+}
+
+// Define any helper functions here
 void helper(const std::string& in, const std::string& floating, const std::set<std::string>& dict, std::string& curr, std::set<std::string>& result, size_t pos, int dashcount){
   if(pos == in.length()){
     if(dict.find(curr)!=dict.end()){
@@ -72,49 +113,4 @@ void helper(const std::string& in, const std::string& floating, const std::set<s
   }
 }
 
-
-// Definition of primary wordle function
-std::set<std::string> wordle(
-    const std::string& in,
-    const std::string& floating,
-    const std::set<std::string>& dict)
-{
-    // Add your code here
-    //compute all possible English language words that exist given a string
-    //containing the already guessed letters that are in the correct location
-    //floating = yellow, has letters that must be part of the word
-    // in = -i--m
-
-    std::set<std::string>result;
-    std::string curr(in.length(), ' ');
-    std::set<std::string> newDict;
-
-    int dashcount = 0;
-    int actualDashcount = 0;
-
-
-    if(in.length()==0){
-      return result;
-    }
-
-    // for(string s: dict){
-    //   if(containsFloaters(s, floating) && s.length()==in.length() && fixed(s, in, dashcount)){
-    //     actualDashcount = dashcount;
-    //     newDict.insert(s);
-    //   }
-    // }
-    for(char c:in){
-      if(c =='-'){
-        actualDashcount++;
-      }
-    }
-
-    helper(in, floating, dict, curr, result, 0, actualDashcount);
-
-
-    return result;
-
-}
-
-// Define any helper functions here
 
