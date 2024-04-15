@@ -23,26 +23,6 @@ static const Worker_T INVALID_ID = (unsigned int)-1;
 
 // Add prototypes for any helper functions here
 
-bool validSchedule(const DailySchedule& sched, const size_t d, const size_t m){
-    // vector<Worker_T> validShift(sched[0].size(), 0);
-    // for(const auto& day : sched){
-    //     for(Worker_T worker : day){
-    //         validShift[worker]++;
-    //         if(validShift[worker]>m){
-    //             return false;
-    //         }
-    //     }
-    // }
-
-    for(const auto& day : sched){
-        if(day.size() != d){
-            return false;
-        }
-    }
-
-    return true;
-}
-
 
 //keep track of slot
 //make helper return a boolean
