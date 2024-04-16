@@ -14,7 +14,6 @@ using namespace std;
 
 // Add prototypes of helper functions here
 
-#include <unordered_map>
 void helper(const std::string& in, const std::string& floating, const std::set<std::string>& dict, std::string& curr, std::set<std::string>& result, size_t pos, int dashcount);
 
 
